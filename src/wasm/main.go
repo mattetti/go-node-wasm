@@ -6,9 +6,14 @@ import (
 	"time"
 )
 
+func init() {
+	// we have to declare our functions in an init func otherwise they aren't
+	// available in JS land at the call time.
+	js.Global().Set("add", js.FuncOf(add))
+}
+
 func main() {
 	fmt.Println("loading")
-	js.Global().Set("add", js.FuncOf(add))
 	wait()
 }
 
@@ -29,5 +34,5 @@ func wait() {
 }
 
 func add(this js.Value, args []js.Value) interface{} {
-	return js.ValueOf(args[0].Int() - args[1].Int())
+	return js.ValueOf(args[0].Int() + args[1].Int())
 }
